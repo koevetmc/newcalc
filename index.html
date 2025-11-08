@@ -19,8 +19,16 @@ $(document).ready(function()
 		document.getElementById('TextUnarmedBonus1').disabled= true;
 		disablePSG();		
 		populate();
-		// Calculate DPS on page load to show initial values
-		calculateDPS1();
+		// Initialize profession and specials - set default to Commando (index 3) if none selected
+		var professionSelect = document.getElementById('selectionProfession1');
+		if (professionSelect) {
+			if (professionSelect.selectedIndex === 0) {
+				// No profession selected, set default to Commando
+				professionSelect.selectedIndex = 3;
+			}
+			// Initialize specials for the selected profession
+			setSpecials1(professionSelect.selectedIndex);
+		}
     }
 );
 
@@ -632,7 +640,7 @@ function calculateDPS1(){
 			
 	
 	
-	if (weaponSpeed1!=null && minD1!=null && maxD1!=null && playerSpeed1!=null){
+	if (weaponSpeed1!=null && minD1!=null && maxD1!=null && playerSpeed1!=null && professionChoice && professionChoice > 0){
 		basicSpeed = (100-playerSpeed1)/100*weaponSpeed1;
 	
 
