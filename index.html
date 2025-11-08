@@ -7,7 +7,14 @@
 
 <meta name="keywords" content="SWG, SWGEMU, star wars, damage, calculator">
 <title>SWGEMU Damage Calculator</title>
-<script type="text/javascript" src="./assets/jquery-latest.js.download"></script>
+<!-- Load jQuery from CDN for reliability, fallback to local if CDN fails -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+// Fallback to local jQuery if CDN fails
+if (typeof jQuery === 'undefined') {
+    document.write('<script src="./assets/jquery-latest.js.download"><\/script>');
+}
+</script>
 <script type="text/javascript" src="./assets/jquery.tablesorter.js.download"></script>
 <script language="JavaScript">
 //set the initial table set
@@ -15,20 +22,26 @@
 //jsort init
 $(document).ready(function()
     {
-        $("#dataTable").tablesorter();
-		document.getElementById('TextUnarmedBonus1').disabled= true;
-		disablePSG();		
-		populate();
-		// Initialize profession and specials - set default to Commando (index 3) if none selected
-		var professionSelect = document.getElementById('selectionProfession1');
-		if (professionSelect) {
-			if (professionSelect.selectedIndex === 0) {
-				// No profession selected, set default to Commando
-				professionSelect.selectedIndex = 3;
-			}
-			// Initialize specials for the selected profession
-			setSpecials1(professionSelect.selectedIndex);
-		}
+        try {
+            $("#dataTable").tablesorter();
+            document.getElementById('TextUnarmedBonus1').disabled= true;
+            disablePSG();		
+            populate();
+            // Initialize profession and specials - set default to Commando (index 3) if none selected
+            var professionSelect = document.getElementById('selectionProfession1');
+            if (professionSelect) {
+                if (professionSelect.selectedIndex === 0) {
+                    // No profession selected, set default to Commando (index 3)
+                    professionSelect.selectedIndex = 3;
+                }
+                // Initialize specials for the selected profession
+                if (professionSelect.selectedIndex > 0) {
+                    setSpecials1(professionSelect.selectedIndex);
+                }
+            }
+        } catch(e) {
+            console.error('Error initializing calculator:', e);
+        }
     }
 );
 
