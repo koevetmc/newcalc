@@ -1,0 +1,14 @@
+# Ignore Core3 repository
+Core3-unstable/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
