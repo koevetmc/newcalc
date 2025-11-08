@@ -7,8 +7,8 @@
 
 <meta name="keywords" content="SWG, SWGEMU, star wars, damage, calculator">
 <title>SWGEMU Damage Calculator</title>
-<script type="text/javascript" src="./SWGEMU Damage Calculator_files/jquery-latest.js.download"></script>
-<script type="text/javascript" src="./SWGEMU Damage Calculator_files/jquery.tablesorter.js.download"></script>
+<script type="text/javascript" src="./assets/jquery-latest.js.download"></script>
+<script type="text/javascript" src="./assets/jquery.tablesorter.js.download"></script>
 <script language="JavaScript">
 //set the initial table set
 
@@ -19,6 +19,8 @@ $(document).ready(function()
 		document.getElementById('TextUnarmedBonus1').disabled= true;
 		disablePSG();		
 		populate();
+		// Calculate DPS on page load to show initial values
+		calculateDPS1();
     }
 );
 
