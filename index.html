@@ -72,7 +72,7 @@ function populate(){
 	try {
 		// Populate weapons dropdown
 		var weaponSelect = document.getElementById("selectionWeapons1");
-		if (weaponSelect && typeof weapons !== 'undefined') {
+		if (weaponSelect && typeof weapons !== 'undefined' && weapons.length > 0) {
 			// Clear existing options except the first one
 			while (weaponSelect.options.length > 1) {
 				weaponSelect.remove(1);
@@ -80,11 +80,14 @@ function populate(){
 			for(i=0;i<weapons.length;i++){
 				weaponSelect.options[weaponSelect.options.length] = new Option(weapons[i][0]);
 			}
+			console.log('Populated weapons dropdown with', weapons.length, 'weapons');
+		} else {
+			console.warn('Cannot populate weapons: weaponSelect=', !!weaponSelect, 'weapons defined=', typeof weapons !== 'undefined', 'weapons length=', typeof weapons !== 'undefined' ? weapons.length : 0);
 		}
 		
 		// Populate enemies dropdown
 		var enemySelect = document.getElementById("selectionEnemies");
-		if (enemySelect && typeof enemies !== 'undefined') {
+		if (enemySelect && typeof enemies !== 'undefined' && enemies.length > 0) {
 			// Clear existing options except the first one
 			while (enemySelect.options.length > 1) {
 				enemySelect.remove(1);
@@ -92,6 +95,9 @@ function populate(){
 			for(i=0;i<enemies.length;i++){
 				enemySelect.options[enemySelect.options.length] = new Option(enemies[i][0]);
 			}
+			console.log('Populated enemies dropdown with', enemies.length, 'enemies');
+		} else {
+			console.warn('Cannot populate enemies: enemySelect=', !!enemySelect, 'enemies defined=', typeof enemies !== 'undefined', 'enemies length=', typeof enemies !== 'undefined' ? enemies.length : 0);
 		}
 	} catch(e) {
 		console.error('Error in populate():', e);
