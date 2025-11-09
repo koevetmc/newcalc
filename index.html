@@ -26,8 +26,7 @@ $(document).ready(function()
             $("#dataTable").tablesorter();
             document.getElementById('TextUnarmedBonus1').disabled= true;
             disablePSG();
-            // Populate dropdowns - arrays should be loaded by now
-            populate();
+            // Populate dropdowns will be called after arrays are defined (see end of script)
             // Initialize profession and specials - set default to Commando (index 3) if none selected
             var professionSelect = document.getElementById('selectionProfession1');
             if (professionSelect) {
@@ -4044,11 +4043,17 @@ enemies = new Array (
 
 );
 
-// Ensure populate is called after arrays are defined
-if (typeof populate === 'function') {
-	// If DOM is already loaded, call populate immediately
+// Populate dropdowns after arrays are defined
+// This ensures all enemies and weapons are available
+if (typeof populate === 'function' && typeof enemies !== 'undefined' && typeof weapons !== 'undefined') {
+	// Call populate immediately if DOM is ready, otherwise wait for it
 	if (document.readyState === 'complete' || document.readyState === 'interactive') {
-		setTimeout(populate, 100);
+		populate();
+	} else {
+		// Wait for DOM to be ready
+		$(document).ready(function() {
+			populate();
+		});
 	}
 }
 
