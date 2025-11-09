@@ -26,10 +26,8 @@ $(document).ready(function()
             $("#dataTable").tablesorter();
             document.getElementById('TextUnarmedBonus1').disabled= true;
             disablePSG();
-            // Delay populate to ensure arrays are loaded
-            setTimeout(function() {
-                populate();
-            }, 100);
+            // Populate dropdowns - arrays should be loaded by now
+            populate();
             // Initialize profession and specials - set default to Commando (index 3) if none selected
             var professionSelect = document.getElementById('selectionProfession1');
             if (professionSelect) {
@@ -4046,8 +4044,13 @@ enemies = new Array (
 
 );
 
-
-
+// Ensure populate is called after arrays are defined
+if (typeof populate === 'function') {
+	// If DOM is already loaded, call populate immediately
+	if (document.readyState === 'complete' || document.readyState === 'interactive') {
+		setTimeout(populate, 100);
+	}
+}
 
 function preloaded1(weaponChoice) {
 	// get the selection from the list box
