@@ -25,8 +25,11 @@ $(document).ready(function()
         try {
             $("#dataTable").tablesorter();
             document.getElementById('TextUnarmedBonus1').disabled= true;
-            disablePSG();		
-            populate();
+            disablePSG();
+            // Delay populate to ensure arrays are loaded
+            setTimeout(function() {
+                populate();
+            }, 100);
             // Initialize profession and specials - set default to Commando (index 3) if none selected
             var professionSelect = document.getElementById('selectionProfession1');
             if (professionSelect) {
@@ -69,24 +72,32 @@ function enablePSG(){
 
 
 function populate(){
-	// Populate weapons dropdown
-	var weaponSelect = document.getElementById("selectionWeapons1");
-	// Clear existing options except the first one
-	while (weaponSelect.options.length > 1) {
-		weaponSelect.remove(1);
-	}
-	for(i=0;i<weapons.length;i++){
-		weaponSelect.options[weaponSelect.options.length] = new Option(weapons[i][0]);
-	}
-	
-	// Populate enemies dropdown
-	var enemySelect = document.getElementById("selectionEnemies");
-	// Clear existing options except the first one
-	while (enemySelect.options.length > 1) {
-		enemySelect.remove(1);
-	}
-	for(i=0;i<enemies.length;i++){
-		enemySelect.options[enemySelect.options.length] = new Option(enemies[i][0]);
+	try {
+		// Populate weapons dropdown
+		var weaponSelect = document.getElementById("selectionWeapons1");
+		if (weaponSelect && typeof weapons !== 'undefined') {
+			// Clear existing options except the first one
+			while (weaponSelect.options.length > 1) {
+				weaponSelect.remove(1);
+			}
+			for(i=0;i<weapons.length;i++){
+				weaponSelect.options[weaponSelect.options.length] = new Option(weapons[i][0]);
+			}
+		}
+		
+		// Populate enemies dropdown
+		var enemySelect = document.getElementById("selectionEnemies");
+		if (enemySelect && typeof enemies !== 'undefined') {
+			// Clear existing options except the first one
+			while (enemySelect.options.length > 1) {
+				enemySelect.remove(1);
+			}
+			for(i=0;i<enemies.length;i++){
+				enemySelect.options[enemySelect.options.length] = new Option(enemies[i][0]);
+			}
+		}
+	} catch(e) {
+		console.error('Error in populate():', e);
 	}
 }
 
@@ -4759,7 +4770,7 @@ body {
 <tr>
 <td height="20" colspan="9" bgcolor="#BCC6CC">Enemy Armor and Resistances </td></tr>
 <tr>
-<td><select name="selectEnemies" id="selectionEnemies" style="width: 135px" onchange="setEnemies(this.selectedIndex); calculateDPS1();"><option>Preloaded Enemies</option></select></td>
+<td><select name="selectEnemies" id="selectionEnemies" style="width: 200px; height: 200px;" size="10" onchange="setEnemies(this.selectedIndex); calculateDPS1();"><option>Preloaded Enemies</option></select></td>
 <td>Kinetic</td>
 <td><input name="TextEnemyKinetic" type="text" id="TextEnemyKinetic" onchange="calculateDPS1();" value="0" size="3" maxlength="3"></td>
 <td>Electricity</td>
